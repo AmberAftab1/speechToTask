@@ -1,0 +1,48 @@
+{% extends "speechtotask/base.html" %}
+{% load static %}
+{% load humanize %}
+
+
+{% block recordings-nav %}
+<li class="nav-item"><a href="#" class = "nav-link active" aria-current="page">Recordings</a></li>
+{% endblock %}
+
+{% block page-title %} Recordings: {% endblock %}
+
+
+
+{% block body %}
+    <ol id="recordings">
+    {% for elem in recordingsList %}
+        <div class = "container">
+        <div class="row">
+    <div class="col-md-2 mt-4">
+    <li class="promptDisplay"> {{ elem.prompt }} </li>
+    </div>
+         <div class="col-md-10 mt-4">
+        <audio class = "audioPlayer container-fluid" src="{{ elem.voice_record.url }}" controls></audio>
+         </div>
+        </div>
+        <p style="font-size: smaller; color: grey" class="mt-2"> {{ elem.date_posted }} ({{ elem.date_posted|naturaltime }})</p>
+        </div>
+{#        <form method = "post" action = "{% url 'speechtotask:transcribe_audio' elem.id %}">#}
+{#          <input type="hidden" name="audio_id" value="{{elem.voice_record}}" />#}
+{#            {% csrf_token %}#}
+{#        <button type="submit">Transcribe </button>#}
+{#        </form>#}
+{#        <form method = "post" action = "{% url 'speechtotask:summarise_audio' elem.id elem.chunkId %}">#}
+{#            <input type="hidden" name="audio_id" value="{{elem.voice_record}}" />#}
+{#            {% csrf_token %}#}
+{#        <button type="submit">Summarise </button>#}
+{#        </form>#}
+{#        <form method = "post" action = "{% url 'speechtotask:transcribe_audio' elem.id %}">#}
+{#          <input type="hidden" name="audio_id" value="{{elem.voice_record}}" />#}
+{#            {% csrf_token %}#}
+{#        <button type="submit">Verify </button>#}
+{#        </form>#}
+    {% endfor %}
+    </ol>
+
+
+
+{% endblock %}

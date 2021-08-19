@@ -1,0 +1,39 @@
+{% extends "speechtotask/base.html" %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block body %}
+{#    <h2> Processed Summary: </h2>#}
+{#    {% for summary in summaries %}#}
+{#        <p class="transcription"> {{ summary.summaryChunk }}</p>#}
+{#    {% endfor %}#}
+
+    <h2> To Summarize: </h2>
+
+    <div id = "chunks-to-summarize">
+{#        {% for chunk in transcription %}#}
+{#            {% if chunk.id <= chunkId and chunk.id >= startId %}#}
+{#                <p hidden id ="id">{{ chunk.id }}</p>#}
+{#                 <p id = "transcript" class="transcription"> {{ chunk.string }}</p>#}
+{#                <hr size="2" width="80%" margin-right="20px" margin-left="20px" color="#90ee90">#}
+{#            {% endif %}#}
+{#            {% endfor %}#}
+        <p id="transcript" class = "text">{{ lines }} </p>
+        </div>
+        <div id = "taskDiv">
+        <h2 id = "task"> Task </h2>
+        <p class="promptQuestion" id = "taskPrompt"> Do you believe the following content is part of the content above? Is it part of the same narrative? </p>
+        <p id = "chunkToProcess" class = "transcription">{{ nextChunk }}</p>
+        </div>
+
+    <div class = "buttons">
+    {% csrf_token %}
+    <button id="yesButton" data-ajax-url = "{% url 'speechtotask:modify_chunk' %}" data-id = "{{ id }}" data-chunkId =  "{{ chunkId }}" data-lines = "{{ lines }}">YES</button>
+    <form method = "post" action="{% url 'speechtotask:summarise_chunk' id %}">
+        {% csrf_token %}
+        <button id = "noButton" type = "submit"> NO</button>
+    </form>
+    </div>
+
+{% endblock %}

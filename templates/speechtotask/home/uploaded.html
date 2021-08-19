@@ -1,0 +1,13 @@
+{% extends "speechtotask/base.html" %}
+
+{% block body %}
+
+    <div class="alert alert-success">
+  <strong>Success!</strong> Your recording has been uploaded. You can access you recording at <a href="{% url 'speechtotask:recordings_list' %}"> </a>.
+        To record another audio, go to <a href="{% url 'speechtotask:home' %}"> </a>
+    </div>
+
+
+
+
+{% endblock %}

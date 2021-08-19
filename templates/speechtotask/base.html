@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static "css/bootstrap-style.css"%}">
+    <link rel="stylesheet" href="{% static "bootstrap-css/bootstrap.min.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script>-->
+</head>
+<body>
+
+<div class="container">
+<nav class="navbar navbar-default" role="navigation">
+<div class="container">
+    <span class="navbar-brand"></span>
+    <a class="btn navbar-btn btn-primary navbar-right pull-right" role="button" href="{% url 'logout' %}">Logout</a>
+</div>
+</nav>
+</div>
+
+<div id = "mainContent" class="container">
+<h1 class="text-center"> Speech to Task </h1>
+
+<div class = "container-fluid">
+<div id = "header">
+<ul class = "nav nav-tabs" id = "primary-nav"> <!-- navigation bar -->
+    {% block home-nav %} <li class="nav-item"><a class="nav-link" href="{% url "speechtotask:home" %}">Home</a></li> {% endblock %}
+    {% block recordings-nav %} {% csrf_token %} <li class="nav-item"><a class="nav-link" href="{% url "speechtotask:recordings_list" %}">Recordings</a></li>{% endblock %}
+{#    {% block transcription-nav %}#}
+{#        <li><a href = "{% url "speechtotask:transcribe_audio" %}">Transcriptions</a></li> {% endblock %}#}
+</ul>
+</div>
+
+</div>
+
+
+<h2 class="container col-md-12 text-center"> {% block page-title %} {% endblock %} </h2>
+{% block body %}
+{% endblock %}
+
+<script src="https://unpkg.com/@popperjs/core@2.4.0/dist/umd/popper.min.js"></script>
+<script src="{% static "bootstrap-js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/app.js" %}"></script>
+<script src="{% static "js/Mp3LameEncoder.min.js.mem" %}" ></script>
+<script src="{% static "js/WebAudioRecorder.min.js" %}"></script>
+<script src="{% static "js/WebAudioRecorderMp3.min.js" %}"></script>
+
+
+</div>
+</body>
+</html>

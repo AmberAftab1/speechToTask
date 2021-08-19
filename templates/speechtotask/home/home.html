@@ -1,0 +1,57 @@
+
+{% extends "speechtotask/base.html" %}
+{% block home-nav %}
+    <li class="nav-item"><a href="#" class = "nav-link active" aria-current="page">Home</a></li>
+{% endblock %}
+
+{% block page-title %} <h2 id="recordingState" class="text-center"> Start Recording: </h2> {% endblock %}
+
+{% block body %}
+    {#<select id="prompt">#}
+    {#    <option value = "day">How was your day?</option>#}
+    {#    <option value = "task"> Create To-Do List </option>#}
+    {#</select>#}
+    <div class = "buttons">
+        <div class="container col-*-1 text-center">
+            <svg height="100" width="100" class="blinking">
+                <circle id ="recordIndicator" cx="50" cy="50" r="10" fill="#FFFFFF"></circle>
+                Sorry, your browser does not support inline SVG.
+            </svg>
+            <span class="time" id="display">00:00:00</span>
+        </div>
+        {#    <p id = "label" style="color:#FFFFFF"> Recording..</p>#}
+    </div>
+    <div class = "col-md-12 text-center">
+        <div class="'buttons">
+            {% csrf_token %}
+            <button id="recordButton">Record</button>
+            <button id="stopButton" disabled>Stop</button>
+        </div>
+    </div>
+
+
+    <div id = "hiddenForm" class="text-center">
+    <div class="row justify-content-center">
+        <form>
+            <p>Create a title for your recording: </p>
+            <div class="col-xs-12 text-center">
+            <input type="text" id="prompt" required>
+            </div>
+            <div class="col-xs-12">
+             <button type="submit" id="submit-prompt" data-ajax-url = "{% url 'speechtotask:upload' %}" class="mt-1"> Upload Recording </button>
+            </div>
+        </form>
+        <div class="col-xs-12 text-center">
+        <form method="post" action="{% url 'speechtotask:home' %}">
+            {% csrf_token %}
+            <button type="'submit" class="mt-1">Cancel </button>
+        </form>
+        </div>
+    </div>
+    </div>
+
+
+    {#<h2>Recordings</h2>#}
+    {#<ol id="recordingsList"></ol>#}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load socialaccount %}
+<html>
+<body>
+<h1>Speech To Task </h1>
+{% if user.is_authenticated %}
+  <p>Welcome, You are logged in as {{ user.username }}. <a href="{%  url 'speechtotask:home' %}"> Go to Home Page </a></p>
+{% else %}
+  <a href="{% provider_login_url 'google' %}">Login With Google</a>
+{% endif %}
+</body>
+</html>

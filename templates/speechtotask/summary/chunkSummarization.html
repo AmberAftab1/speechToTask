@@ -1,0 +1,27 @@
+{% extends "speechtotask/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+    <h2> Lines to Summarize </h2>
+
+    <div id = "chunks-to-summarize">
+{#        {% for chunk in transcription %}#}
+{#                <p hidden id ="id">{{ chunk.id }}</p>#}
+{#                 <p id = "transcript" class="transcription"> {{ chunk.string }}</p>#}
+{#                <hr size="2" width="80%" margin-right="20px" margin-left="20px" color="#90ee90">#}
+{#            {% endfor %}#}
+            <p id="transcript" class = "text">{{ lines }} </p>
+        </div>
+        <h2> Task </h2>
+        <p class="promptQuestion"> Summarize the following lines in one line? </p>
+        <div id = "summaryDiv">
+        <form method = "post" action = "{% url 'speechtotask:update_summary' id %}">
+            {% csrf_token %}
+            <textarea rows = "5" cols = "60" id="chunkSummary" name="chunkSummary"></textarea>
+        <input type="submit" value="Submit">
+        </form>
+        </div>
+
+{% endblock %}

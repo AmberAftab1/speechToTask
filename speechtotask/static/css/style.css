@@ -1,0 +1,261 @@
+    html {
+      font-size: 250%;
+    }
+
+    body {
+      line-height: 1.5;
+      font-family: sans-serif;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      color: black;
+      margin: 2em;
+    }
+
+    h1 {
+      text-align: center;
+      color: green;
+      text-underline-offset: 6px;
+      font-size: 220%;
+      font-weight: bold;
+    }
+
+    div#header{
+      margin-top: 200px;
+      text-align: center;
+      margin-left: 250px;
+    }
+
+    ul#primary-nav { /*header navigation*/
+      padding: 0;
+	  list-style-type: none;
+	  text-align: center;
+	  margin:auto;
+	  width: 100%;
+
+    }
+
+    ul#primary-nav li a {
+      display: block;
+      float:left;
+      text-decoration: none;
+      padding: 5px 5px;
+      background-color: darkgray;
+      color: white;
+      margin-top: 20px;
+    }
+
+    ul#primary-nav li a:hover {
+      background-color: green;
+    }
+
+    ul#primary-nav li a.selected {
+      background-color: darkgreen;
+    }
+
+
+    h2 {
+      clear: left;
+      text-align: center;
+      font-weight: bold;
+      font-size: 140%;
+      color: green;
+      text-transform: uppercase;
+      margin-top: 500px;
+    }
+
+    .promptQuestion {
+        clear: left;
+      text-align: center;
+      font-weight: bold;
+      font-size: 75%;
+      color: green;
+      text-transform: uppercase;
+      margin-top: 20px;
+
+    }
+
+    #summaryDiv{
+         clear: left;
+        text-align: center;
+          font-weight: bold;
+          font-size: 75%;
+          color: green;
+    }
+    div.boxed {
+	    border: 5px solid grey;
+        padding: 10px;
+        background-color: lightgrey;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+
+    #prompt {
+      clear: left;
+      display: block;
+      margin: 0 auto;
+      font-size: 100%;
+      margin-top: 50px;
+    }
+
+
+    /*div.recIndicator{*/
+    /*  text-align: center;*/
+    /*  margin-top: 10px;*/
+    /*}*/
+    div.buttons {
+      text-align: center;
+    }
+
+    button {
+      background: indianred;
+      cursor: pointer;
+      margin-top: 10px;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-left: 10px;
+    }
+
+    button:hover, button:focus {
+      outline: none;
+      background: red;
+    }
+
+    button::-moz-focus-inner {
+      border: 0;
+    }
+
+    /*button:active {*/
+    /*  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);*/
+    /*  line-height: 3rem;*/
+    /*}*/
+    button:disabled {
+      pointer-events: none;
+      background: darkgray;
+    }
+
+    .blinking {
+      -webkit-animation: 1s blink ease infinite;
+      -moz-animation: 1s blink ease infinite;
+      -ms-animation: 1s blink ease infinite;
+      -o-animation: 1s blink ease infinite;
+      animation: 1s blink ease infinite;
+
+    }
+
+    @keyframes blink {
+      from, to {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @-moz-keyframes blink {
+      from, to {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes blink {
+      from, to {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @-ms-keyframes blink {
+      from, to {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @-o-keyframes blink {
+      from, to {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+
+    .audioPlayer{
+        margin-top: 10px;
+        display: inline-block;
+        width: 100%
+
+    }
+
+    .transcription{
+        clear:left;
+        text-align: center;
+
+    }
+
+    .text{
+        clear:left;
+        margin-left: 30%;
+        text-align: center;
+        width: 40%;
+        border:3px;
+        border-style:solid;
+        border-color:darkgreen;
+    }
+
+@media all and  (min-width: 1050px) {
+
+    html {
+      font-size: 100%;
+    }
+
+
+    h1 {
+      text-align: center;
+      color: green;
+      text-underline-offset: 6px;
+      font-size: 220%;
+      font-weight: bold;
+    }
+
+      div#header{
+      margin-top: 0px;
+      text-align: center;
+      margin-left: 0px;
+    }
+
+
+    ul#primary-nav li a {
+      margin-top: 10px;
+    }
+
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    div.boxed {
+        margin-left: 500px;
+        margin-right: 500px;
+    }
+
+
+    #prompt {
+      clear: left;
+      display: block;
+      margin: 0 auto;
+      font-size: 100%;
+    }
+
+
+}

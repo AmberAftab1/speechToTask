@@ -1,0 +1,26 @@
+{% extends "speechtotask/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+   <audio id = "audioClip" class = "audioPlayer" src="{{recording.voice_record.url }}" controls="true"></audio>
+    <h2> Transcription </h2>
+    <form method = "post" action = "{% url 'speechtotask:verify_transcription' recording.id %}" onsubmit="return copyContent()" >
+
+    <div id = "verified-transcript">
+        {% for chunk in transcription %}
+    <p hidden id ="id">{{ chunk.id }}</p>
+            <p id = "timings" class = "transcription"><a class = "time-link" data-time = "{{ chunk.startTime }}" href ="#" onclick="return seekAudio({{ chunk.startTime }});">{{ chunk.startTime }}s - {{ chunk.endTime }}s</a></p>
+    <p id = "transcript" class="transcription" contentEditable="true"> {{ chunk.string }}</p>
+        {% csrf_token %}
+        <hr size="2" width="80%" margin-right="20px" margin-left="20px" color="#90ee90">
+    {% endfor %}
+    </div>
+     <textarea style="display:none;" id="hidden-input" name="entire-transcript"> </textarea>
+
+
+    <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}
