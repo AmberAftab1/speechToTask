@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - /Users/amberaftab/Library/Application\ Support/Postgres/var-13:/var/lib/postgresql/data
+      - audio_volume:/audiodata/
+    environment:
+      - POSTGRES_DB=speechtotask
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=MyPostgresPassword
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    expose:
+      - "5555"
+    ports:
+      - "5555:5555"
+    command: -p 5555
+
+  web:
+    tty: true
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - audio_volume:/audiodata/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  audio_volume: {}
