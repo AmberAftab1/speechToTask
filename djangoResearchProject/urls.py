@@ -24,5 +24,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="speechtotask/index.html")),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view(), name='logout'),
+    path('certs-token-Bje5J0U51ICuC9xMnUx8BRgvmek-v_ZJWbDAaw', TemplateView.as_view(template_name="speechtotask/index.html")),
 
 ]

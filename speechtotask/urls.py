@@ -17,9 +17,10 @@ urlpatterns = [
     # path('transcribe/Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
     # path('summarise/<int:id>/Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
     # path('verify/<int:id>', views.verify_transcription, name = 'verify_transcription'),
-    # path('Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
+    path('Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
     path('static/js/Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
     path('static/js/WebAudioRecorder.min.js', views.web_recorder, name='web_recorder'),
-    path('static/js/WebAudioRecorderMp3.min.js', views.web_recorder_mp3, name='web_recorder_mp3'),
+    path('static/js/WebAudioRecorderMp3.min.js', views.web_recorder_mp3, name='web_recorder_mp3'), 
     re_path(r'^audio/blob*', views.get_blob, name="get_blob"),
+    
 ]

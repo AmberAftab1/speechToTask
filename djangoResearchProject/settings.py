@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from corsheaders.defaults import default_headers
+import dj_database_url
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = '^wy(=+a&551xex4op$mgwydft2r=5dd9xa6a@k73hzmq04gi3o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tldl.cs.vt.edu','127.0.0.1', '128.173.237.45']
 
 # Application definition
 
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     # 'speechtotask.custommiddleware.CsrfHeaderMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -62,9 +65,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangoResearchProject.urls'
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:8000',]
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:8000','http://tldl.cs.vt.edu:8000',]
 
-CSRF_TRUSTED_ORIGINS = ['127.0.0.1:8000',]
+CSRF_TRUSTED_ORIGINS = ['127.0.0.1:8000','tldl.cs.vt.edu:8000',]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
 'X-CSRFToken', 'cache-control', 'csrftoken',
@@ -92,16 +95,21 @@ WSGI_APPLICATION = 'djangoResearchProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'speechtotask',
-        'USER': 'postgres',
-        'PASSWORD': 'MyPostgresPassword',
-        'HOST': 'db',
-        'PORT': '5555',
+
+
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {'default': dj_database_url.config()}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'speechtotask',
+            'USER': 'postgres',
+            'PASSWORD': 'MyPostgresPassword',
+            'HOST': 'db',
+            'PORT': '5555',
+        }
     }
-}
 
 # DATABASES = {
 #     'default': {
@@ -147,6 +155,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
@@ -164,7 +174,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SITE_ID = 3
+SITE_ID = 4
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

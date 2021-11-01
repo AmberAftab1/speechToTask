@@ -1,3 +1,4 @@
+version: "3"
 services:
   db:
     image: postgres
@@ -18,12 +19,22 @@ services:
   web:
     tty: true
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:80
     volumes:
       - .:/code
       - audio_volume:/audiodata/
+      - ./certs:/certs/
     ports:
-      - "8000:8000"
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - migration
+      - db
+  migration:
+    build: .
+    command: python manage.py migrate --noinput
+    volumes:
+      - .:/code
     depends_on:
       - db
 
