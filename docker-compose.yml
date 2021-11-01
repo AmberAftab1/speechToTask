@@ -19,24 +19,27 @@ services:
   web:
     tty: true
     build: .
-    command: python manage.py runserver 0.0.0.0:80
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --certfile=/etc/certs/cert.crt --keyfile=/etc/certs/cert.key djangoResearchProject.wsgi:application --bind 0.0.0.0:443"
+    container_name: djangoResearchProject
     volumes:
       - .:/code
       - audio_volume:/audiodata/
       - ./certs:/certs/
+      - ./config/nginx/certs/:/etc/certs
+    expose:
+      - "443"
+    depends_on:
+      - db
+  nginx:
+    image: nginx:latest
+    container_name: ng
     ports:
-      - "80:80"
       - "443:443"
-    depends_on:
-      - migration
-      - db
-  migration:
-    build: .
-    command: python manage.py migrate --noinput
+      - "80:80"
     volumes:
-      - .:/code
+      - ./config/nginx/:/etc/nginx/conf.d
     depends_on:
-      - db
+      - web
 
 volumes:
   audio_volume: {}

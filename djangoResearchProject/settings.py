@@ -27,7 +27,7 @@ SECRET_KEY = '^wy(=+a&551xex4op$mgwydft2r=5dd9xa6a@k73hzmq04gi3o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tldl.cs.vt.edu','127.0.0.1', '128.173.237.45']
+ALLOWED_HOSTS = ['tldl.cs.vt.edu','127.0.0.1', '128.173.237.45', 'web']
 
 # Application definition
 
