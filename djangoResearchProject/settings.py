@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['tldl.cs.vt.edu','127.0.0.1', '128.173.237.45', 'web']
 
+USE_X_FORWARDED_HOST = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -65,9 +67,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangoResearchProject.urls'
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:8000','http://tldl.cs.vt.edu:8000',]
+CORS_ALLOWED_ORIGINS = ['http://tldl.cs.vt.edu','https://tldl.cs.vt.edu', 'http://127.0.0.1:8000', 'https://127.0.0.1:443', 'http://127.0.0.1:80',]
 
-CSRF_TRUSTED_ORIGINS = ['127.0.0.1:8000','tldl.cs.vt.edu:8000',]
+CSRF_TRUSTED_ORIGINS = ['127.0.0.1:8000','tldl.cs.vt.edu',]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
 'X-CSRFToken', 'cache-control', 'csrftoken',
@@ -174,7 +176,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SITE_ID = 4
+SITE_ID = 5
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
+from speechtotask import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('speechtotask/', include('speechtotask.urls', namespace ='speechtotask')),
     path('', TemplateView.as_view(template_name="speechtotask/index.html")),
     path('accounts/', include('allauth.urls')),
+    #path('accounts/', views.whatever),
     path('logout', LogoutView.as_view(), name='logout'),
     path('certs-token-MWF7g6eWVnncrMV_9OeuYu2DBLwo4d5n8-rVNQ', TemplateView.as_view(template_name="speechtotask/index.html")),
 

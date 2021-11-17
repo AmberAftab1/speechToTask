@@ -58,6 +58,9 @@ def web_recorder_mp3(request):
     return HttpResponse(data, content_type="application/javascript")
 
 
+#def whatever(request):
+    #return redirect("oauth/")
+
 #
 # def transcribe_audio(request, id):
 #     audio_id = request.POST.get('audio_id')

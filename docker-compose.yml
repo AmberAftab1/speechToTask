@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     volumes:
-      - /Users/amberaftab/Library/Application\ Support/Postgres/var-13:/var/lib/postgresql/data
+      - /psql-db/var-13:/var/lib/postgresql/data
       - audio_volume:/audiodata/
     environment:
       - POSTGRES_DB=speechtotask
@@ -19,7 +19,7 @@ services:
   web:
     tty: true
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --certfile=/etc/certs/cert.crt --keyfile=/etc/certs/cert.key djangoResearchProject.wsgi:application --bind 0.0.0.0:443"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --certfile=/etc/certs/cert.crt --keyfile=/etc/certs/key.pem djangoResearchProject.wsgi:application --bind 0.0.0.0:443"
     container_name: djangoResearchProject
     volumes:
       - .:/code
