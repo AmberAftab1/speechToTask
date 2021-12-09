@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from datetime import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 import time
 import boto3
@@ -15,7 +15,8 @@ import ssl
 from pyquery import PyQuery
 from django.contrib import messages
 from shutil import copyfile
-
+from random import seed
+from random import randint
 
 # Create your views here.
 @login_required()
@@ -34,7 +35,7 @@ def home(request):
 @login_required()
 def recordings_list(request):
     if request.user.is_authenticated:
-        recordings = Recording.objects.all().order_by('-date_posted')
+        recordings = Recording.objects.filter(userObject = request.user).order_by('-date_posted')
         return render(request, "speechtotask/recordings/list.html", {"recordingsList": recordings})
     else:
         return render(request, "speechtotask/index.html")
@@ -43,7 +44,7 @@ def recordings_list(request):
 def lame_encoder(request, id=0):
     filename = "speechtotask/static/js/Mp3LameEncoder.min.js.mem"
     data = open(filename, "rb").read()
-    return HttpResponse(data, content_type="application/octet-stream")
+    return HttpResponse(data, content_type="application/javascript")
 
 @login_required()
 def web_recorder(request):
@@ -58,8 +59,6 @@ def web_recorder_mp3(request):
     return HttpResponse(data, content_type="application/javascript")
 
 
-#def whatever(request):
-    #return redirect("oauth/")
 
 #
 # def transcribe_audio(request, id):
@@ -312,12 +311,14 @@ def upload(request):
     # if is_ajax and request.method == 'POST':
     if request.method == 'POST':
         audio_data = request.FILES['audio']
-        prompt = request.POST.get("prompt")
-
+        #prompt = request.POST.get("prompt")
+        now = datetime.now()
+        random_num = now.strftime("%m-%d-%Y-%H-%M-%S-")
+        audio_data.name = audio_data.name + random_num + request.user.username
         record = Recording(
-            filename='test.mp3',
-            prompt=prompt,
-            user="testUser",
+            filename=random_num,
+            prompt=audio_data.name,
+            userObject= request.user,
             voice_record=audio_data,
         )
         record.save()

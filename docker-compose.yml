@@ -19,15 +19,18 @@ services:
   web:
     tty: true
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --certfile=/etc/certs/cert.crt --keyfile=/etc/certs/key.pem djangoResearchProject.wsgi:application --bind 0.0.0.0:443"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && gunicorn --workers=2 --threads=4 --worker-class=gthread --keep-alive 2400 --timeout 2400 --worker-tmp-dir /dev/shm --certfile=/etc/certs/cert.crt --keyfile=/etc/certs/key.pem djangoResearchProject.wsgi:application --bind 0.0.0.0:443"
+#    command: bash -c "python manage.py makemigrations && python manage.py migrate && uwsgi --master --https 0.0.0.0:8000,/etc/certs/cert.crt,/etc/certs/key.pem --module djangoResearchProject.wsgi:application"
     container_name: djangoResearchProject
     volumes:
       - .:/code
       - audio_volume:/audiodata/
       - ./certs:/certs/
       - ./config/nginx/certs/:/etc/certs
+      - ./speechtotask/migrations:/app/speechtotask/migrations
     expose:
       - "443"
+      - "8000"
     depends_on:
       - db
   nginx:
@@ -36,6 +39,7 @@ services:
     ports:
       - "443:443"
       - "80:80"
+      - "8000:8000"
     volumes:
       - ./config/nginx/:/etc/nginx/conf.d
     depends_on:
