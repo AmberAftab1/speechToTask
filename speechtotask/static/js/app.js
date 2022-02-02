@@ -29,15 +29,23 @@ $("#yesButton").click(function (){
     modifyChunk();
 });
 
-$("#submit-prompt").click(function (){
+$("#submit-prompt").click(function (ev){
+    ev.preventDefault();
+    $(".buttonload").toggle();
+    $("#submit-prompt").hide();
+    $("#cancel-prompt").hide();
+    $("#prompt").hide();
+    $("#title-prompt").hide();
     var blob = blobVar;
-     var form = new FormData();
+    var form = new FormData();
     form.append('audio', blob);
+    //form.append('audioProcessing', True);
     const csrftoken = getCookie('csrftoken');
     var prompt = $("#prompt").val();
     var ajax_url = $("#submit-prompt").attr('data-ajax-url');
-    form.append('prompt', prompt);
-      $.ajax({
+    var ajax_prompt_url = $("#submit-prompt").attr('data-ajax-prompt-url');
+    //form.append('prompt', prompt);
+         $.ajax({
                     url: ajax_url,
                     type: 'POST',
                     data: form,
@@ -47,20 +55,37 @@ $("#submit-prompt").click(function (){
                     headers: {'X-CSRFToken': csrftoken},
                     success: function (data) {
 
+                     var id = data.id;
+                     //alert(prompt);
+
+                     $.ajax({
+                    url: ajax_prompt_url,
+                    type: 'POST',
+                    data: {prompt: prompt, id: id},
+                    dataType : "json",
+                    //processData: false,
+                    //contentType: false,
+                    headers: {'X-CSRFToken': csrftoken},
+                    success: function (data) {
+
                      var prompt = data.prompt;
-                     alert(prompt);
+                     //alert(prompt, "  success");
                      recordButton.disabled = false;
+                     window.location.reload();
 
                     },
                     error: function () {
-                        alert("Failed");
+                        alert("Failed AJAX 2");
                     },
                     timeout: 500000
                     });
 
-
-
-
+                    },
+                    error: function () {
+                        alert("Failed AJAX 1");
+                    },
+                    timeout: 500000
+                    });
 });
 
 

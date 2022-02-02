@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: postgres
+    image: postgres:13
     volumes:
       - /psql-db/var-13:/var/lib/postgresql/data
       - audio_volume:/audiodata/
@@ -25,7 +25,6 @@ services:
     volumes:
       - .:/code
       - audio_volume:/audiodata/
-      - ./certs:/certs/
       - ./config/nginx/certs/:/etc/certs
       - ./speechtotask/migrations:/app/speechtotask/migrations
     expose:
@@ -33,6 +32,7 @@ services:
       - "8000"
     depends_on:
       - db
+
   nginx:
     image: nginx:latest
     container_name: ng

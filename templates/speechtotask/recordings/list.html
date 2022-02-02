@@ -25,6 +25,10 @@
         </div>
         <p style="font-size: smaller; color: grey" class="mt-2"> {{ elem.date_posted }} ({{ elem.date_posted|naturaltime }})</p>
         </div>
+	<form method = "post" action = "{% url 'speechtotask:delete-audio' elem.id %}">
+	{% csrf_token %}
+	<button type="submit"> Delete </button>
+	</form>
 {#        <form method = "post" action = "{% url 'speechtotask:transcribe_audio' elem.id %}">#}
 {#          <input type="hidden" name="audio_id" value="{{elem.voice_record}}" />#}
 {#            {% csrf_token %}#}

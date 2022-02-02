@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.datastructures import MultiValueDictKeyError
 import time
 import boto3
 import json
@@ -59,6 +60,14 @@ def web_recorder_mp3(request):
     return HttpResponse(data, content_type="application/javascript")
 
 
+@login_required()
+def delete_audio(request,id):
+    try:
+        recordingObject = Recording.objects.get(pk=id).delete()
+    except Recording.DoesNotExist:
+        return redirect('speechtotask:home')
+    
+    return redirect('speechtotask:recordings_list')
 
 #
 # def transcribe_audio(request, id):
@@ -310,7 +319,13 @@ def upload(request):
     is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
     # if is_ajax and request.method == 'POST':
     if request.method == 'POST':
-        audio_data = request.FILES['audio']
+        #if request.POST.get("audioProcessing")==True:
+            #audio_data = request.POST.get('audio')
+        try:
+            audio_data = request.FILES['audio']
+        except MultiValueDictKeyError:
+            audio_data = False
+            #audio_data = request.FILES['audio']
         #prompt = request.POST.get("prompt")
         now = datetime.now()
         random_num = now.strftime("%m-%d-%Y-%H-%M-%S-")
@@ -328,8 +343,22 @@ def upload(request):
         # s3 = boto3.resource('s3')
         # s3.meta.client.upload_file(str(record.voice_record), 'speechtotask', filename + ".mp3")
         # print("Uploaded FILE!!!!!")
-        return JsonResponse({'success': 'success', 'prompt': record.prompt}, status=200)
+        return JsonResponse({'success': 'success', 'id': record.id}, status=200)
+    return redirect('speechtotask:home')
 
+@login_required()
+@csrf_exempt
+def prompt(request):
+    is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+    # if is_ajax and request.method == 'POST':
+    if request.method == 'POST':
+        prompt = request.POST.get("prompt")
+        id = request.POST.get("id")
+        print("Prompt: ", prompt, " ID: ", id)
+        recording = Recording.objects.get(pk=id)
+        recording.prompt = prompt
+        recording.save()
+        return JsonResponse({'success': 'success', 'prompt': recording.prompt}, status=200)
     return redirect('speechtotask:home')
 
 @login_required()

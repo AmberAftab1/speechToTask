@@ -60,6 +60,16 @@
         display:none;
     }
 
+    /* Style buttons */
+    .buttonload {
+      display: none;
+      background-color: white; /* white background */
+      border: none; /* Remove borders */
+      color: green; /* White text */
+      padding: 12px 16px; /* Some padding */
+      font-size: 20px /* Set a font size */
+    }
+
     #display{
         display:none;
     }

@@ -33,18 +33,21 @@
     <div id = "hiddenForm" class="text-center">
     <div class="row justify-content-center">
         <form>
-            <p>Create a title for your recording: </p>
+            <button class="buttonload">
+             <i class="fa fa-circle-o-notch fa-spin"></i> Uploading....
+            </button>
+            <p id="title-prompt">Create a title for your recording: </p>
             <div class="col-xs-12 text-center">
             <input type="text" id="prompt" required>
             </div>
             <div class="col-xs-12">
-             <button type="submit" id="submit-prompt" data-ajax-url = "{% url 'speechtotask:upload' %}" class="mt-1"> Upload Recording </button>
+             <button type="submit" id="submit-prompt" data-ajax-url = "{% url 'speechtotask:upload' %}" data-ajax-prompt-url = "{% url 'speechtotask:prompt' %}" class="mt-1"> Upload Recording </button>
             </div>
         </form>
         <div class="col-xs-12 text-center">
         <form method="post" action="{% url 'speechtotask:home' %}">
             {% csrf_token %}
-            <button type="'submit" class="mt-1">Cancel </button>
+            <button type="'submit" id="cancel-prompt" class="mt-1">Cancel </button>
         </form>
         </div>
     </div>
