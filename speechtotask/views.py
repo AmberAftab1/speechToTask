@@ -10,7 +10,7 @@ import json
 import requests
 from django.core.files import File as DjangoFile
 import os
-from .models import Recording, Summary
+from .models import Recording, Summary, SpeechtoTaskUser
 import pandas as pd
 import ssl
 from pyquery import PyQuery
@@ -22,8 +22,12 @@ from random import randint
 # Create your views here.
 @login_required()
 def home(request):
-    if request.user.is_authenticated:
-        return render(request, "speechtotask/home/home.html")
+    if request.user.is_authenticated: 
+        try:
+            results = SpeechtoTaskUser.objects.get(user_id = request.user.id).summary_url            
+            return render(request, "speechtotask/home/home.html", {"results": results})
+        except:       
+            return render(request, "speechtotask/home/home.html")
     else:
         return render(request, "speechtotask/index.html")
     # return render(request, "speechtotask/home/home.html")
@@ -36,7 +40,10 @@ def home(request):
 @login_required()
 def recordings_list(request):
     if request.user.is_authenticated:
-        recordings = Recording.objects.filter(userObject = request.user).order_by('-date_posted')
+        if request.user.is_staff:
+            recordings = Recording.objects.all().order_by('-date_posted')
+        else:
+            recordings = Recording.objects.filter(userObject = request.user).order_by('-date_posted')
         return render(request, "speechtotask/recordings/list.html", {"recordingsList": recordings})
     else:
         return render(request, "speechtotask/index.html")
@@ -328,11 +335,11 @@ def upload(request):
             #audio_data = request.FILES['audio']
         #prompt = request.POST.get("prompt")
         now = datetime.now()
-        random_num = now.strftime("%m-%d-%Y-%H-%M-%S-")
-        audio_data.name = audio_data.name + random_num + request.user.username
+        random_num = now.strftime("%m-%d-%Y-%H-%M-%S")
+        audio_data.name = audio_data.name +  "-" + random_num +"-" +  request.user.username 
         record = Recording(
             filename=random_num,
-            prompt=audio_data.name,
+            prompt=request.user.username + "-" + random_num,
             userObject= request.user,
             voice_record=audio_data,
         )
@@ -354,12 +361,30 @@ def prompt(request):
     if request.method == 'POST':
         prompt = request.POST.get("prompt")
         id = request.POST.get("id")
-        print("Prompt: ", prompt, " ID: ", id)
+        #print("Prompt: ", prompt, " ID: ", id)
         recording = Recording.objects.get(pk=id)
-        recording.prompt = prompt
-        recording.save()
+        if prompt != "":
+            recording.prompt = prompt
+            recording.save()
         return JsonResponse({'success': 'success', 'prompt': recording.prompt}, status=200)
     return redirect('speechtotask:home')
+
+
+@login_required()
+@csrf_exempt
+def synthesize(request):
+    filename = "/app/speechtotask/hi.mp3"
+    data = open(filename, "rb").read()
+    return HttpResponse(data, content_type="audio/mp3")
+
+
+@login_required()
+@csrf_exempt
+def confirm(request):
+    filename = "/app/speechtotask/thanks.mp3"
+    data = open(filename, "rb").read()
+    return HttpResponse(data, content_type="audio/mp3")
+
 
 @login_required()
 @csrf_exempt

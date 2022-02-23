@@ -12,8 +12,8 @@ var audioContext = new AudioContext;
 var encodingTypeSelect = document.getElementById("encodingTypeSelect");
 
 var blobVar;
-
-
+var audioVar = new Audio("./synthesize.mp3");
+var audioVar2 = new Audio("./confirm.mp3");
 
 
 $("#recordButton").click(function (){
@@ -29,6 +29,15 @@ $("#yesButton").click(function (){
     modifyChunk();
 });
 
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
+}
+
+
+
 $("#submit-prompt").click(function (ev){
     ev.preventDefault();
     $(".buttonload").toggle();
@@ -36,6 +45,11 @@ $("#submit-prompt").click(function (ev){
     $("#cancel-prompt").hide();
     $("#prompt").hide();
     $("#title-prompt").hide();
+    var checkBox = document.getElementById("muteCheck");
+    if (checkBox.checked == false){    
+	audioVar2.play();
+    }
+	//sleep(5000);
     var blob = blobVar;
     var form = new FormData();
     form.append('audio', blob);
@@ -56,6 +70,10 @@ $("#submit-prompt").click(function (ev){
                     success: function (data) {
 
                      var id = data.id;
+	             var checkBox = document.getElementById("muteCheck");
+                     if (checkBox.checked == false){
+                     sleep(5000);
+		     }
                      //alert(prompt);
 
                      $.ajax({
@@ -71,18 +89,27 @@ $("#submit-prompt").click(function (ev){
                      var prompt = data.prompt;
                      //alert(prompt, "  success");
                      recordButton.disabled = false;
-                     window.location.reload();
-
+		     alert("Voice memo uploaded successfully");
+	             //window.location.reload();
+		     window.location.href = "/speechtotask/recordings";
                     },
                     error: function () {
-                        alert("Failed AJAX 2");
+                        //$(".buttonload").hide();
+    			//$("#recordButton").toggle();
+			//recordButton.disabled = false;
+			//document.getElementById("display").innerHTML = 00:00:00
+			//document.getElementById("recordingState").innerText = "Start Recording"
+    			//$("#stopButton").toggle();
+			//alert("Voice memo z " + prompt + "uploaded successfully");
+                        window.location.reload();
+                        //alert("Failed AJAX 2");
                     },
                     timeout: 500000
                     });
 
                     },
                     error: function () {
-                        alert("Failed AJAX 1");
+                        //alert("Failed AJAX 1");
                     },
                     timeout: 500000
                     });
@@ -178,12 +205,18 @@ function startRecording() {
             audio: true,
             video: false
         }
+	var checkBox = document.getElementById("muteCheck");
+	if (checkBox.checked == false){
+	audioVar.play();
+	}
         document.getElementById('recordIndicator').style.fill = "#FF0000";
 
 
          $("#display").toggle();
-
-         startTime = Date.now();
+	//var audioElement = document.createElement("audio"); 
+	//audioElement.src = "../../synthesize.mp3";
+	//audioElement.play();
+        startTime = Date.now();
         setInterval(function printTime() {
             elapsedTime = Date.now() - startTime;
             document.getElementById("display").innerHTML = timeToString(elapsedTime);
@@ -250,6 +283,7 @@ function stopRecording() {
     $("#display").hide();
     $("#recordButton").hide();
     $("#stopButton").hide();
+    $("#results").hide();
     //stop microphone access
     gumStream.getAudioTracks()[0].stop();
     //disable the stop button

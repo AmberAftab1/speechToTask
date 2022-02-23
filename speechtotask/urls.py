@@ -23,6 +23,8 @@ urlpatterns = [
     path('static/js/Mp3LameEncoder.min.js.mem', views.lame_encoder, name='lame_encoder'),
     path('static/js/WebAudioRecorder.min.js', views.web_recorder, name='web_recorder'),
     path('static/js/WebAudioRecorderMp3.min.js', views.web_recorder_mp3, name='web_recorder_mp3'), 
+    path('confirm.mp3', views.confirm, name='confirm'),
+    path('synthesize.mp3', views.synthesize, name='synthesize'), 
     re_path(r'^audio/blob*', views.get_blob, name="get_blob"),
     
 ]

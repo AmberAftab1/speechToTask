@@ -26,7 +26,7 @@
 <div class = "container-fluid">
 <div id = "header">
 <ul class = "nav nav-tabs" id = "primary-nav"> <!-- navigation bar -->
-    {% block home-nav %} <li class="nav-item"><a class="nav-link" href="{% url "speechtotask:home" %}">Home</a></li> {% endblock %}
+    {% block home-nav %} <li class="nav-item"><a class="nav-link" href="{% url "speechtotask:home" %}">Create</a></li> {% endblock %}
     {% block recordings-nav %} {% csrf_token %} <li class="nav-item"><a class="nav-link" href="{% url "speechtotask:recordings_list" %}">Recordings</a></li>{% endblock %}
 {#    {% block transcription-nav %}#}
 {#        <li><a href = "{% url "speechtotask:transcribe_audio" %}">Transcriptions</a></li> {% endblock %}#}

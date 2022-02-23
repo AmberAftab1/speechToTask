@@ -1,12 +1,16 @@
 
 {% extends "speechtotask/base.html" %}
 {% block home-nav %}
-    <li class="nav-item"><a href="#" class = "nav-link active" aria-current="page">Home</a></li>
+    <li class="nav-item"><a href="#" class = "nav-link active" aria-current="page">Create</a></li>
 {% endblock %}
 
 {% block page-title %} <h2 id="recordingState" class="text-center"> Start Recording: </h2> {% endblock %}
 
 {% block body %}
+   <div class="container col-*-1 text-center">
+    <input type="checkbox" id="muteCheck" name="muteCheck">
+    <label for = "muteCheck"> Mute Assistant </label>
+   </div>
     {#<select id="prompt">#}
     {#    <option value = "day">How was your day?</option>#}
     {#    <option value = "task"> Create To-Do List </option>#}
@@ -26,7 +30,12 @@
             {% csrf_token %}
             <button id="recordButton">Record</button>
             <button id="stopButton" disabled>Stop</button>
-        </div>
+	    {% if results %}
+            <form action= {{results}}>
+    		<input id = "results" type="submit" value="Go to To-Do List"/>
+	    </form>
+	    {% endif %}
+	</div>
     </div>
 
 
@@ -36,9 +45,9 @@
             <button class="buttonload">
              <i class="fa fa-circle-o-notch fa-spin"></i> Uploading....
             </button>
-            <p id="title-prompt">Create a title for your recording: </p>
+            <p id="title-prompt">Create a title (optional) for your recording: </p>
             <div class="col-xs-12 text-center">
-            <input type="text" id="prompt" required>
+            <input type="text" id="prompt">
             </div>
             <div class="col-xs-12">
              <button type="submit" id="submit-prompt" data-ajax-url = "{% url 'speechtotask:upload' %}" data-ajax-prompt-url = "{% url 'speechtotask:prompt' %}" class="mt-1"> Upload Recording </button>
