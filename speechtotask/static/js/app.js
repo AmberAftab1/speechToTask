@@ -45,9 +45,12 @@ $("#submit-prompt").click(function (ev){
     $("#cancel-prompt").hide();
     $("#prompt").hide();
     $("#title-prompt").hide();
+    $("#label").hide();
+    // $("#hiddenForm").hide();
     var checkBox = document.getElementById("muteCheck");
-    if (checkBox.checked == false){    
-	audioVar2.play();
+    if (checkBox.checked == false){
+        audioVar2.play();
+        $("#confirm").show();
     }
 	//sleep(5000);
     var blob = blobVar;
@@ -207,7 +210,8 @@ function startRecording() {
         }
 	var checkBox = document.getElementById("muteCheck");
 	if (checkBox.checked == false){
-	audioVar.play();
+        audioVar.play();
+        $("#hi").show();
 	}
         document.getElementById('recordIndicator').style.fill = "#FF0000";
 
@@ -284,6 +288,7 @@ function stopRecording() {
     $("#recordButton").hide();
     $("#stopButton").hide();
     $("#results").hide();
+    $("#hi").hide();
     //stop microphone access
     gumStream.getAudioTracks()[0].stop();
     //disable the stop button

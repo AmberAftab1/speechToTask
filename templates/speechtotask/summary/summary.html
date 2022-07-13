@@ -1,0 +1,9 @@
+{% load socialaccount %}
+<html>
+<body>
+<h1 style = "font-size:2.5em">Speech To Task </h1>
+{% if user.is_authenticated %}
+  <p style = "font-size:1.875em">Your ToDo List will be available shortly. Thanks for your patience! </p>
+{% endif %}
+</body>
+</html>

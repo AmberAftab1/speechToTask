@@ -11,6 +11,7 @@ urlpatterns = [
     path('upload',views.upload, name='upload'),
     path('prompt', views.prompt, name='prompt'),
     path ('delete/<int:id>', views.delete_audio, name = 'delete-audio'),
+    path('summary', views.summary, name = 'summary'),
     # path('modify-chunk', views.modify_chunk, name='modify_chunk'),
     # path('transcribe/<int:id>', views.transcribe_audio, name='transcribe_audio'),
     # path('summarise/<int:id>/<int:chunkId>', views.summarise_audio, name = 'summarise_audio'),

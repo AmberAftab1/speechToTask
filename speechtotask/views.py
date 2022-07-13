@@ -12,6 +12,7 @@ from django.core.files import File as DjangoFile
 import os
 from .models import Recording, Summary, SpeechtoTaskUser
 import pandas as pd
+import smtplib
 import ssl
 from pyquery import PyQuery
 from django.contrib import messages
@@ -36,6 +37,15 @@ def home(request):
 #
 # def google_login(request):
 #     return render(request, "speechtotask/index.html")
+
+
+@login_required()
+def summary(request):
+    if request.user.is_authenticated:
+        return render(request, "speechtotask/summary/summary.html")
+    else:
+        return render(request, "speechtotask/index.html")
+
 
 @login_required()
 def recordings_list(request):
@@ -344,6 +354,21 @@ def upload(request):
             voice_record=audio_data,
         )
         record.save()
+        #f = open('mail-google.txt')
+        #email_info = json.load(f)
+        EMAIL_ADDRESS = 'amber19@vt.edu'
+        EMAIL_PASSWORD = 'khcvxylvaaowzzjl'
+        with smtplib.SMTP('smtp.gmail.com',587) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            
+            subject = 'ALERT! Voice memo uploaded!'
+            body = 'User ' + request.user.username + ' has uploaded a new voice memo!'
+            msg = f'Subject: {subject}\n\n{body}'
+            smtp.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS, msg)
         os.system("cp "+str(record.voice_record)+" /audiodata/")
 
         # filename = str(record.voice_record).split("/")[-1]

@@ -10,6 +10,7 @@
    <div class="container col-*-1 text-center">
     <input type="checkbox" id="muteCheck" name="muteCheck">
     <label for = "muteCheck"> Mute Assistant </label>
+    <p id="hi" style="display:none"> Hi! How is your day going? Leave a voice memo whenever you're ready and I will add it to your to-do list. </p>
    </div>
     {#<select id="prompt">#}
     {#    <option value = "day">How was your day?</option>#}
@@ -34,6 +35,11 @@
             <form action= {{results}}>
     		<input id = "results" type="submit" value="Go to To-Do List"/>
 	    </form>
+	    {%else%}
+                <form method = "post" action="{% url 'speechtotask:summary' %}">
+                {% csrf_token %}
+                <input id = "results" type="submit" value="Go to To-Do List"/>
+            	</form>
 	    {% endif %}
 	</div>
     </div>
@@ -41,13 +47,15 @@
 
     <div id = "hiddenForm" class="text-center">
     <div class="row justify-content-center">
-        <form>
+           <p id= "confirm" style="display:none"> Thanks for using Speech to Task. Your voice memo will be available on the to-do list shortly! </p>
+           <form>
             <button class="buttonload">
              <i class="fa fa-circle-o-notch fa-spin"></i> Uploading....
             </button>
-            <p id="title-prompt">Create a title (optional) for your recording: </p>
-            <div class="col-xs-12 text-center">
-            <input type="text" id="prompt">
+            <p id="title-prompt">Create a title for your recording: </p>
+            <div class = "container col-*-1 text-center">
+            <label for = "prompt" id="label"> Title (optional): </label>
+            <input type="text" id="prompt" name="prompt">
             </div>
             <div class="col-xs-12">
              <button type="submit" id="submit-prompt" data-ajax-url = "{% url 'speechtotask:upload' %}" data-ajax-prompt-url = "{% url 'speechtotask:prompt' %}" class="mt-1"> Upload Recording </button>
