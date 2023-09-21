@@ -1,1 +1,1 @@
-{'EMAIL_ADDRESS':'amber19@vt.edu','EMAIL_PASSWORD':'khcvxylvaaowzzjl'}
+{'EMAIL_ADDRESS':'','EMAIL_PASSWORD':''}
